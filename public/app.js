@@ -44,7 +44,7 @@
     if (!Number.isInteger(p.port) || p.port < 1 || p.port > 65535) return 'پورت باید عدد صحیح بین ۱ تا ۶۵۵۳۵ باشد.';
     if (p.protocol === 'vless' || p.protocol === 'vmess') {
       if (!p.identity) return 'UUID کاربر لازم است.';
-      if (p.protocol === 'vless' && !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(p.identity)) return 'UUID در قالب استاندارد نیست؛ مقدار را بررسی کن.';
+      if (p.protocol === 'vless' && !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(p.identity)) return 'UUID در قالب استاندارد نیست؛ مقدار را بررسی کن.';
     }
     if (p.protocol === 'trojan' && !p.password) return 'رمز Trojan را وارد کن.';
     if (p.protocol === 'shadowsocks' && !p.password) return 'رمز Shadowsocks را وارد کن.';
