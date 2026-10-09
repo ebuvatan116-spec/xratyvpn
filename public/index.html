@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#0c1119" />
+  <meta name="description" content="پنل محلی ساخت و تبدیل کانفیگ کلاینت Xray؛ اطلاعات اتصال از مرورگر شما خارج نمی‌شود." />
+  <title>نود | سازنده کانفیگ Xray</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <script defer src="/app.js"></script>
+</head>
+<body>
+  <div class="shell">
+    <aside class="rail">
+      <a class="brand" href="#" aria-label="نود، خانه"><span class="brand-mark"><i></i><i></i><i></i></span><span>نود<span class="brand-dot">.</span></span></a>
+      <div class="rail-label">فضای کاری</div>
+      <button class="nav-item active" data-view="builder"><span class="nav-icon">◈</span><span>سازنده کانفیگ</span><kbd>01</kbd></button>
+      <button class="nav-item" data-view="import"><span class="nav-icon">↗</span><span>ورود / تبدیل</span><kbd>02</kbd></button>
+      <button class="nav-item" data-view="saved"><span class="nav-icon">▤</span><span>ذخیره‌شده‌ها</span><span class="saved-count" id="saved-count">0</span></button>
+      <div class="rail-spacer"></div>
+      <div class="privacy-mini"><span class="privacy-lock">⌑</span><div><strong>محلی و خصوصی</strong><small>اطلاعات فقط در مرورگر شما</small></div><span class="live-dot"></span></div>
+      <div class="rail-foot">XRAY CONFIG STUDIO <span>v1.0</span></div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="crumb"><span>ابزارها</span><b>/</b><strong id="crumb-current">سازنده کانفیگ</strong></div>
+        <div class="top-actions"><span class="status-pill"><i></i> آماده ساخت</span><button class="icon-btn" id="theme-toggle" title="تغییر پوسته" aria-label="تغییر پوسته">◐</button></div>
+      </header>
+
+      <section class="view active" id="view-builder">
+        <div class="page-heading">
+          <div><div class="eyebrow"><span class="eyebrow-line"></span> پروفایل اتصال <span class="eyebrow-num">01 / 03</span></div><h1>کانفیگت را <em>بساز.</em></h1><p>جزئیات نود را وارد کن؛ لینک اشتراک و فایل آماده Xray را یک‌جا تحویل بگیر.</p></div>
+          <div class="heading-mark"><span>XRAY</span><b>///</b></div>
+        </div>
+
+        <div class="notice"><span class="notice-icon">⌑</span><div><strong>اطلاعات اتصال خصوصی می‌ماند</strong><p>ساخت کانفیگ کاملاً داخل مرورگر انجام می‌شود. هیچ کلید، UUID یا رمز عبوری به سرور ارسال نمی‌شود.</p></div><button class="notice-close" aria-label="بستن پیام" id="dismiss-notice">×</button></div>
+
+        <div class="workspace">
+          <section class="form-card">
+            <div class="card-head"><div><span class="step">01</span><div><h2>مشخصات نود</h2><p>پروتکل و مسیر انتقال را انتخاب کن</p></div></div><button class="text-button" id="reset-form">پاک‌کردن فرم <span>↺</span></button></div>
+            <form id="profile-form" autocomplete="off">
+              <div class="fields two-col">
+                <label class="field"><span class="label">نام پروفایل <b>*</b></span><input id="name" placeholder="مثلاً سرور شخصی" maxlength="64" required /><small>نامی که در کلاینت دیده می‌شود</small></label>
+                <label class="field"><span class="label">پروتکل <b>*</b></span><select id="protocol"><option value="vless">VLESS</option><option value="vmess">VMess</option><option value="trojan">Trojan</option><option value="shadowsocks">Shadowsocks</option></select><small id="protocol-hint">سریع، سبک و مناسب پیکربندی‌های جدید</small></label>
+              </div>
+              <div class="section-rule"><span>سرور</span><i></i></div>
+              <div class="fields two-col">
+                <label class="field"><span class="label">آدرس سرور <b>*</b></span><input id="address" placeholder="example.com یا 203.0.113.10" required spellcheck="false" /><small>دامنه یا IP قابل دسترسی نود</small></label>
+                <label class="field"><span class="label">پورت <b>*</b></span><input id="port" type="number" min="1" max="65535" value="443" required inputmode="numeric" /><small>عدد بین ۱ تا ۶۵۵۳۵</small></label>
+              </div>
+              <div class="fields two-col" id="identity-row">
+                <label class="field"><span class="label" id="identity-label">UUID <b>*</b></span><input id="identity" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" spellcheck="false" required /><small id="identity-hint">شناسه کاربر از تنظیمات سمت سرور</small></label>
+                <label class="field" id="alterid-field"><span class="label">Alter ID</span><input id="alterId" type="number" min="0" max="65535" value="0" inputmode="numeric" /><small>برای تنظیمات جدید معمولاً صفر</small></label>
+                <label class="field hidden" id="method-field"><span class="label">روش رمزنگاری <b>*</b></span><select id="method"><option>2022-blake3-aes-128-gcm</option><option>2022-blake3-aes-256-gcm</option><option>aes-128-gcm</option><option>aes-256-gcm</option><option>chacha20-poly1305</option><option>chacha20-ietf-poly1305</option><option>none</option></select><small>باید با سرور یکسان باشد</small></label>
+              </div>
+              <div class="fields one-col hidden" id="password-row"><label class="field"><span class="label" id="password-label">رمز عبور <b>*</b></span><input id="password" type="password" placeholder="رمز اتصال" autocomplete="new-password" /><small>این مقدار فقط در همین مرورگر استفاده می‌شود</small></label></div>
+
+              <div class="section-rule"><span>امنیت و انتقال</span><i></i></div>
+              <div class="fields three-col" id="transport-security-row">
+                <label class="field"><span class="label">امنیت اتصال</span><select id="security"><option value="tls">TLS</option><option value="reality">REALITY</option><option value="none">بدون TLS</option></select></label>
+                <label class="field"><span class="label">انتقال</span><select id="network"><option value="tcp">TCP (RAW)</option><option value="ws">WebSocket</option><option value="grpc">gRPC</option><option value="httpupgrade">HTTPUpgrade</option><option value="xhttp">XHTTP</option></select></label>
+                <label class="field hidden" id="flow-field"><span class="label">Flow</span><select id="flow"><option value="">بدون Flow</option><option value="xtls-rprx-vision">xtls-rprx-vision</option></select></label>
+              </div>
+              <div class="fields two-col hidden" id="tls-row">
+                <label class="field"><span class="label">SNI / دامنه TLS</span><input id="sni" placeholder="cdn.example.com" spellcheck="false" /></label>
+                <label class="field"><span class="label">اثر انگشت کلاینت</span><select id="fingerprint"><option value="chrome">chrome</option><option value="firefox">firefox</option><option value="safari">safari</option><option value="edge">edge</option><option value="randomized">randomized</option></select></label>
+              </div>
+              <div class="fields two-col hidden" id="reality-row">
+                <label class="field"><span class="label">کلید عمومی Reality <b>*</b></span><input id="publicKey" placeholder="Public key" spellcheck="false" /></label>
+                <label class="field"><span class="label">Short ID</span><input id="shortId" placeholder="مثلاً a1b2c3d4" spellcheck="false" /></label>
+                <label class="field"><span class="label">SNI / Server Name <b>*</b></span><input id="realitySni" placeholder="www.example.com" spellcheck="false" /></label>
+                <label class="field"><span class="label">Flow</span><select id="realityFlow"><option value="xtls-rprx-vision">xtls-rprx-vision</option><option value="">بدون Flow</option></select></label>
+              </div>
+              <div class="fields two-col hidden" id="transport-row">
+                <label class="field" id="host-field"><span class="label">Host header</span><input id="host" placeholder="cdn.example.com" spellcheck="false" /></label>
+                <label class="field" id="path-field"><span class="label">مسیر (Path)</span><input id="path" placeholder="/gateway" spellcheck="false" /></label>
+                <label class="field hidden" id="service-field"><span class="label">gRPC Service Name</span><input id="serviceName" placeholder="grpc-service" spellcheck="false" /></label>
+              </div>
+              <div class="fields one-col hidden" id="alpn-row"><label class="field"><span class="label">ALPN <span class="optional">اختیاری</span></span><input id="alpn" placeholder="h2,http/1.1" /></label></div>
+              <div class="fields one-col" id="insecure-row"><label class="check-field"><input id="allowInsecure" type="checkbox" /><span class="check-box"></span><span><strong>نادیده گرفتن خطای گواهی TLS</strong><small>فقط برای تست؛ اتصال را در برابر حمله MITM آسیب‌پذیر می‌کند.</small></span></label></div>
+              <div class="form-error" id="form-error" role="alert" aria-live="polite"></div>
+              <div class="form-actions"><button class="primary-btn" type="submit"><span>ساخت کانفیگ</span><b>↙</b></button><button class="secondary-btn" type="button" id="import-link-shortcut">ورود از لینک <span>↗</span></button><span class="form-hint">ساخت آفلاین · بدون ارسال داده</span></div>
+            </form>
+          </section>
+
+          <aside class="result-card" id="result-card">
+            <div class="result-top"><div><span class="step muted">02</span><span class="result-title">خروجی کانفیگ</span></div><span class="ready-indicator" id="result-indicator"><i></i> منتظر ورودی</span></div>
+            <div class="empty-state" id="empty-state"><div class="empty-art"><span class="orbit o1"></span><span class="orbit o2"></span><span class="empty-cube">⌘</span><span class="float-dot d1"></span><span class="float-dot d2"></span></div><h3>هنوز چیزی ساخته نشده</h3><p>مشخصات سرور را وارد کن تا لینک و فایل کلاینت آماده شود.</p><div class="empty-line"><i></i> منتظر داده‌های پروفایل</div></div>
+            <div class="result-content hidden" id="result-content">
+              <div class="result-profile"><div class="profile-avatar" id="profile-avatar">V</div><div><strong id="result-name">پروفایل</strong><small><span id="result-protocol">VLESS</span><b>·</b><span id="result-endpoint">host:443</span></small></div><button class="save-btn" id="save-profile" title="ذخیره روی همین دستگاه">☆</button></div>
+              <div class="tabs" role="tablist"><button class="tab active" data-tab="uri" role="tab">لینک اشتراک</button><button class="tab" data-tab="json" role="tab">فایل Xray JSON</button><button class="tab" data-tab="share" role="tab">لینک سازنده</button></div>
+              <div class="output-wrap"><div class="output-head"><span id="output-label">Share URI</span><button id="copy-output" class="copy-small">کپی <span>▣</span></button></div><pre id="output-text" dir="ltr" tabindex="0"></pre></div>
+              <div class="output-actions"><button class="download-btn" id="download-output"><span>↓</span> دانلود خروجی</button><button class="share-btn" id="copy-share">کپی لینک آماده <span>↗</span></button></div>
+              <div class="result-note"><span>i</span><p>لینک آماده اجرا در کلاینت‌های سازگار با Xray قابل Import است. فایل JSON یک کلاینت محلی SOCKS روی پورت <code>10808</code> هم تعریف می‌کند.</p></div>
+            </div>
+            <div class="result-foot"><span><i></i> بدون حساب کاربری</span><span>ساخت محلی <b>•</b> نسخه 1.0</span></div>
+          </aside>
+        </div>
+        <footer class="page-foot"><span>ساخته‌شده برای پیکربندی مسئولانه و شخصی</span><span>نود <b>—</b> Xray Config Studio</span></footer>
+      </section>
+
+      <section class="view" id="view-import">
+        <div class="page-heading compact"><div><div class="eyebrow"><span class="eyebrow-line"></span> تبدیل‌گر <span class="eyebrow-num">02 / 03</span></div><h1>وارد کن، <em>تبدیل کن.</em></h1><p>لینک اشتراک یا کانفیگ JSON را به پروفایل قابل ویرایش تبدیل کن.</p></div></div>
+        <section class="import-card"><div class="card-head"><div><span class="step">IN</span><div><h2>منبع ورودی</h2><p>VLESS، VMess، Trojan، Shadowsocks یا JSON</p></div></div><button class="text-button" id="clear-import">پاک‌کردن <span>↺</span></button></div><label class="field"><span class="label">لینک یا محتوای کانفیگ</span><textarea id="import-text" rows="8" dir="ltr" spellcheck="false" placeholder="vless://…
+یا vmess://…
+یا JSON کلاینت Xray"></textarea><small>ورودی فقط در مرورگر پردازش می‌شود. لینک‌های اشتراک چندخطی نیز پشتیبانی می‌شوند.</small></label><div class="form-error" id="import-error" role="alert"></div><div class="form-actions"><button class="primary-btn" id="parse-import" type="button"><span>تبدیل به پروفایل</span><b>↙</b></button><button class="secondary-btn" id="import-file-btn" type="button">بازکردن فایل JSON <span>↑</span></button><input id="import-file" type="file" accept=".json,.txt,.conf,application/json,text/plain" class="visually-hidden" /></div></section>
+        <div class="import-help"><span>?</span><div><strong>چه چیزهایی قابل‌خواندن است؟</strong><p>لینک‌های استاندارد VLESS/VMess/Trojan/Shadowsocks و JSON شامل outboundهای رایج Xray. لینک‌های اشتراک HTTPS به‌صورت خودکار دریافت نمی‌شوند؛ محتوای آن‌ها را در این کادر بچسبان تا اطلاعات نود به‌طور ناخواسته به مقصد دیگری ارسال نشود.</p></div></div>
+      </section>
+
+      <section class="view" id="view-saved">
+        <div class="page-heading compact"><div><div class="eyebrow"><span class="eyebrow-line"></span> فضای محلی <span class="eyebrow-num">03 / 03</span></div><h1>پروفایل‌های <em>ذخیره‌شده.</em></h1><p>این فهرست فقط در همین مرورگر و همین دستگاه نگهداری می‌شود.</p></div></div>
+        <div class="saved-card"><div class="saved-toolbar"><div><strong>کتابخانه پروفایل</strong><span id="saved-caption">پروفایل‌ها روی همین دستگاه ذخیره می‌شوند.</span></div><button class="text-button danger-text" id="clear-saved">حذف همه</button></div><div id="saved-list" class="saved-list"></div><div class="saved-empty" id="saved-empty"><span>▤</span><strong>هنوز پروفایلی ذخیره نکرده‌ای</strong><small>در بخش سازنده، روی ستاره کنار خروجی بزن.</small></div></div>
+      </section>
+
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    </main>
+  </div>
+</body>
+</html>

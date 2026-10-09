@@ -1,0 +1,4 @@
+name = "xray-config-panel"
+main = "dist/worker.js"
+compatibility_date = "2026-10-09"
+workers_dev = true
